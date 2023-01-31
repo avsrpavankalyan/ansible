@@ -1,0 +1,35 @@
+---
+- name: ins
+  become: yes
+  hosts: all
+  vars:
+    nodejs_name: nodejs
+    ansible_facts_ubuntu: ansible_facts['distribution'] == "Ubuntu"
+    ansible_facts_centos: ansible_facts['distribution'] == "CentOS"
+  tasks:
+    - name: installing nodejs on ubuntu
+      ansible.builtin.apt:
+        name: "{{nodejs_name}}"
+        state: present
+      when: "{{ansible_facts_ubuntu}}"
+    - name: Add node.js repo
+      yum_repository:
+        name: "{{nodejs_name}}"
+        description: Node JS
+        baseurl: https://rpm.nodesource.com/pub_8.x/el/7/x86_64/
+        enabled: 1
+        gpgcheck: 1
+        gpgkey: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+      when: "{{ansible_facts_centos}}"
+    - name: Install package
+      yum:
+        name:
+          - https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
+        state: present
+      when: "{{ansible_facts_centos}}"
+    - name: Install nodejs
+      yum:
+        name: nodejs-8.*
+        state: present
+        enablerepo: 'nodesource'
+      when: "{{ansible_facts_centos}}"

@@ -12,7 +12,7 @@
         url: https://rpm.nodesource.com/setup_10.x
         dest: /opt/nodesetup
         mode: "777"
-      when: ansible_facts['distribution'] ==m "CentOS"
+      when: ansible_facts['distribution'] == "CentOS"
     - name: giving shell permissions
       ansible.biultin.command: /opt/nodesetup
     

@@ -1,0 +1,9 @@
+---
+- name: installing dotnet on ubuntu and centos 
+  become: yes
+  hosts: all
+  tasks:
+    - name: installing dotnet on ubuntu
+      ansible.builtin.apt:
+        name: dotnet-sdk-7.0
+        state: present

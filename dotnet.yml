@@ -3,9 +3,9 @@
   become: yes
   hosts: all
   tasks:
-    - name: installing dotnet on ubuntu
+    - name: installing dotnet on centos
       ansible.builtin.apt:
-        name: dotnet-sdk-7.0
+        name: dotnet-sdk-6.0
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
         

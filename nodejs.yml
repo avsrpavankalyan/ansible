@@ -7,6 +7,7 @@
       ansible.builtin.apt:
         name: nodejs
         state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing nodejs on centos
       ansible.builtin.get_url:
         url: https://rpm.nodesource.com/setup_10.x
@@ -15,5 +16,6 @@
       when: ansible_facts['distribution'] == "CentOS"
     - name: giving shell permissions
       shell: /opt/nodesetup
+      when: ansible_facts['distribution'] == "CentOS"
 
     

@@ -7,3 +7,5 @@
       ansible.builtin.apt:
         name: dotnet-sdk-7.0
         state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+        

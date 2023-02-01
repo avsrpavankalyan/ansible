@@ -14,5 +14,6 @@
         mode: "777"
       when: ansible_facts['distribution'] == "CentOS"
     - name: giving shell permissions
-      ansible.biultin.command: /opt/nodesetup
+      shell: /opt/nodesetup
+
     

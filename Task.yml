@@ -1,0 +1,58 @@
+---
+- name: inatall dotnet,Nodejs,Java on ubuntu and centos
+  hosts: all
+  become: yes
+  vars:
+    packages_url: https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+    deb_packges: packages-microsoft-prod.deb
+    dotnet_packages: 
+      - dotnet-sdk-6.0
+      - aspnetcore-runtime-6.0
+      - dotnet-runtime-6.0
+  tasks: 
+    - name: wget the packages
+      get_url: 
+        url: "{{ packages_url }}"
+        dest: /tmp/packages-microsoft-prod.deb
+    - name: install the packages-microsoft-prod.deb
+      dpkg_selections:
+        name: "{{ deb_packges }}"
+        selection: install
+    - name: rm in packages-microsoft-prod.deb
+      file: 
+        path: /tmp/packages-microsoft-prod.deb
+        state: absent
+    - name: install dotnet-sdk-6.0, aspnetcore-runtime-6.0, dotnet-runtime-6.0
+      apt: 
+        name: "{{ dotnet_packages }}"
+        update_cache: yes
+        state: present
+    - name: installing  nodejs on ubuntu
+      ansible.builtin.apt:
+        name: nodejs
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: installing nodejs on centos
+      ansible.builtin.get_url:
+        url: https://rpm.nodesource.com/setup_10.x
+        dest: /opt/nodesetup
+        mode: "777"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: giving shell permissions
+      shell: /opt/nodesetup
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: installing java on ubuntu
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: installing java on centos
+      ansible.builtin.yum:
+        name: java-11-openjdk-devel
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
+
+
+    
+
+        

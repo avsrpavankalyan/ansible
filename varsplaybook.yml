@@ -2,47 +2,56 @@
 - name: installing dotnet7, java 11, Noddejs on ubuntu and centos
   become: yes
   hosts: all
+  vars:
+    java_name_ubuntu: openjdk-11-jdk
+    java_name_centos: java-11-openjdk-devel
+    nodejs_install_name:
+      - nodejs
+      - npm
+    nodejs_setup_shell: /opt/nodejssetup
+    dotnet_debpackage_ubuntu: packages-microsoft-prod.deb
+    dotnet_rmppackage_centos: packages-microsoft-prod.rpm
+    dotnet_package: dotnet-sdk-7.0
+    dotnet_wget_url_ubuntu22: https://packages.microsoft.com/config/ubuntu/22.10/
+    dotnet_wget_url_centos7: https://packages.microsoft.com/config/centos/7/
   tasks:
     - name: installing java on ubuntu
       ansible.builtin.apt:
-        name: openjdk-11-jdk
+        name: "{{java_name_ubuntu}}"
         state: present
         update_cache: yes
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing java on centos
       ansible.builtin.yum:
-        name: java-11-openjdk-devel
+        name: "{{java_name_centos}}"
         state: present
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing nodejs on ubuntu
       ansible.builtin.apt:
-        name: 
-          - nodejs
-          - npm
+        name: "{{nodejs_install_name}}"
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing nodejs on centos
       ansible.builtin.get_url:
         url: https://rpm.nodesource.com/setup_10.x
-        dest: /opt/nodesetup
+        dest: "{{nodejs_setup_shell}}"
         mode: "777"
       when: ansible_facts['distribution'] == "CentOS"
     - name: executing nodejs script 
-      ansible.builtin.shell: /opt/nodesetup
+      ansible.builtin.shell: "{{nodejs_setup_shell}}"
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing nodejs
       ansible.builtin.yum:
         name: nodejs
         state: present
       when: ansible_facts['distribution'] == "CentOS"
-      
     - name: installing dotnet7 on ubuntu
       ansible.builtin.get_url:
-        url: https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb
-        dest: /tmp/packages-microsoft-prod.deb
+        url: "{{dotnet_wget_url_ubuntu22}}{{dotnet_debpackage}}"
+        dest: "/tmp/{{dotnet_debpackage}}"
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: download package
-      ansible.builtin.package: deb=/tmp/packages-microsoft-prod.deb
+      ansible.builtin.package: "deb=/tmp/{{dotnet_debpackage}}"
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: setiing https
       ansible.builtin.apt:
@@ -52,22 +61,22 @@
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing dotnet
       ansible.builtin.apt:
-        name: dotnet-sdk-7.0
+        name: "{{dotnet_package}}"
         update_cache: yes
         state: present
       when: ansible_facts['distribution'] == "Ubuntu" 
     - name: installing dotnet in centos 
       ansible.builtin.get_url:
-        url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-        dest: /tmp/packages-microsoft-prod.rpm
+        url: "{{dotnet_wget_url_centos7}}{{dotnet_rmppackage_centos}}"
+        dest: "/tmp/{{dotnet_rmppackage_centos}}"
       when: ansible_facts['distribution']  == "CentOS"
     - name: installing packages
       ansible.builtin.yum:
-        name: /tmp/packages-microsoft-prod.rpm
+        name: "/tmp/{{dotnet_rmppackage_centos}}"
       when: ansible_facts['distribution']  == "CentOS"
     - name: install package
       ansible.builtin.package:
-        name: dotnet-sdk-7.0
+        name: "{{dotnet_package}}"
         update_cache: yes
         state: present
       when: ansible_facts['distribution']  == "CentOS"

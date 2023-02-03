@@ -16,7 +16,7 @@
     - name: installing packages of packages-microsoft-prod.rpm
       ansible.builtin.dpkg_selections:
         name:  packages-microsoft-prod.rpm
-        slection: install
+        selection: install
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing dotnet 7
       ansible.builtin.yum:

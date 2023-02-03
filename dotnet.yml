@@ -9,10 +9,20 @@
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing dotnet on centos
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+        dest: /tmp/packages-microsoft-prod.rpm
+      when: ansible_facts['distribution'] == "CentOS"git
+    - name: installing packages of packages-microsoft-prod.rpm
+      ansible.builtin.dpkg_selections:
+        name:  packages-microsoft-prod.rpm
+        slection: install
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: installing dotnet 7
       ansible.builtin.yum:
-        name:
+        name: 
           - dotnet-sdk-7.0
-          - dotnet-runtime-7.0
           - aspnetcore-runtime-7.0
+          - dotnet-runtime-7.0
         state: present
       when: ansible_facts['distribution'] == "CentOS"

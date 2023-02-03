@@ -15,7 +15,7 @@
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing packages of packages-microsoft-prod.rpm
       dpkg_selections:
-        name:  packages-microsoft-prod.rpm
+        name:  packages-microsoft-prod.deb
         selection: install
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing dotnet 7

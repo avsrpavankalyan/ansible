@@ -9,7 +9,7 @@
         dest: /tmp/packages-microsoft-prod.deb
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing packages-microsoft-prod.deb package
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name: deb=/tmp/packages-microsoft-prod.deb
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"

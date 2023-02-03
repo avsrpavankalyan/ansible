@@ -13,16 +13,20 @@
         url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
         dest: /tmp/packages-microsoft-prod.rpm
       when: ansible_facts['distribution'] == "CentOS"
-    - name: installing packages of packages-microsoft-prod.rpm
+    - name: installing packages of packages-microsoft-prod.deb
       dpkg_selections:
         name:  packages-microsoft-prod.deb
         selection: install
       when: ansible_facts['distribution'] == "CentOS"
+    - name: rm in packages-microsoft-prod.deb
+      file: 
+        path: /tmp/packages-microsoft-prod.deb
+        state: absent
     - name: installing dotnet 7
       ansible.builtin.yum:
         name: 
           - dotnet-sdk-7.0
           - aspnetcore-runtime-7.0
           - dotnet-runtime-7.0
+        update_cache: yes
         state: present
-      when: ansible_facts['distribution'] == "CentOS"

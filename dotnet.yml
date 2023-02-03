@@ -23,3 +23,18 @@
         update_cache: yes
         state: present
       when: ansible_facts['distribution'] == "Ubuntu" 
+    - name: installing dotnet in centos 
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+        dest: /tmp/packages-microsoft-prod.rpm
+      when: ansible_facts['distribution']  == "CentOS"
+    - name: installing packages
+      ansible.builtin.yum:
+        name: /tmp/packages-microsoft-prod.rpm
+      when: ansible_facts['distribution']  == "CentOS"
+    - name: install package
+      ansible.builtin.package:
+        name: dotnet-sdk-7.0
+        update_cacahe: yes
+        state: present
+      when: ansible_facts['distribution']  == "CentOS"

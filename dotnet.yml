@@ -35,6 +35,6 @@
     - name: install package
       ansible.builtin.package:
         name: dotnet-sdk-7.0
-        update_cacahe: yes
+        update_cache: yes
         state: present
       when: ansible_facts['distribution']  == "CentOS"

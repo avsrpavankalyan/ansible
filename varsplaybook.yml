@@ -49,7 +49,7 @@
     - name: installing dotnet7 on ubuntu
       ansible.builtin.get_url:
         url: "{{dotnet_wget_url_ubuntu22}}{{dotnet_debpackage_ubuntu}}"
-        dest: "/tmp/{{dotnet_debpackage}}"
+        dest: "/tmp/{{dotnet_debpackage_ubuntu}}"
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: download package
       ansible.builtin.package: "deb=/tmp/{{dotnet_debpackage_ubuntu}}"

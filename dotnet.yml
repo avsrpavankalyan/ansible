@@ -1,0 +1,10 @@
+---
+- name: installing dotnet on ubuntu and centos
+  become: yes
+  hosts: all
+  tasks:
+    - name: installing dotnet on ubuntu
+      ansible.builtin.apt:
+        name: dotnet6
+        state: present
+      when: ansible-facts['distribution'] == "Ubuntu"

@@ -7,5 +7,4 @@
       ansible.builtin.apt:
         name: dotnet6
         state: present
-      when: ansible_facts['distribution'] == "U
-      buntu"
+      when: ansible_facts['distribution'] == "Ubuntu"

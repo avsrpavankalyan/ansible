@@ -11,8 +11,6 @@
     nodejs_setup_shell: /opt/nodejssetup
     dotnet_debpackage_ubuntu: packages-microsoft-prod.deb
     dotnet_rmppackage_centos: packages-microsoft-prod.rpm
-    dotnet_package_ubuntu22: dotnet-sdk-7.0
-    dotnet_package_centos7: dotnet-sdk-7.0
     dotnet_wget_url_ubuntu22: https://packages.microsoft.com/config/ubuntu/22.10/
     dotnet_wget_url_centos7: https://packages.microsoft.com/config/centos/7/
   tasks:
@@ -62,7 +60,7 @@
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: installing dotnet
       ansible.builtin.apt:
-        name: "{{dotnet_package_ubuntu22}}"
+        name: dotnet-sdk-7.0
         update_cache: yes
         state: present
       when: ansible_facts['distribution'] == "Ubuntu" 
@@ -77,7 +75,7 @@
       when: ansible_facts['distribution']  == "CentOS"
     - name: install package
       ansible.builtin.package:
-        name: "{{dotnet_package_centos7}}"
+        name: dotnet-sdk-7.0
         update_cache: yes
         state: present
       when: ansible_facts['distribution']  == "CentOS"

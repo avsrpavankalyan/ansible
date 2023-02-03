@@ -12,7 +12,7 @@
       ansible.builtin.get_url:
         url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
         dest: /tmp/packages-microsoft-prod.rpm
-      when: ansible_facts['distribution'] == "CentOS"git
+      when: ansible_facts['distribution'] == "CentOS"
     - name: installing packages of packages-microsoft-prod.rpm
       ansible.builtin.dpkg_selections:
         name:  packages-microsoft-prod.rpm

@@ -14,7 +14,7 @@
         dest: /tmp/packages-microsoft-prod.rpm
       when: ansible_facts['distribution'] == "CentOS"
     - name: installing packages of packages-microsoft-prod.rpm
-      ansible.builtin.dpkg_selections:
+      dpkg_selections:
         name:  packages-microsoft-prod.rpm
         selection: install
       when: ansible_facts['distribution'] == "CentOS"

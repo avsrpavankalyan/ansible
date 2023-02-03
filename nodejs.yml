@@ -24,3 +24,4 @@
         name: nodejs
         state: present
       when: ansible_facts['distribution'] == "CentOS"
+      

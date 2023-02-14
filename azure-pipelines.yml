@@ -11,6 +11,6 @@ steps:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
 
-- task: install npm
+- task: Npm@1
   inputs:
     command: sudo apt install npm

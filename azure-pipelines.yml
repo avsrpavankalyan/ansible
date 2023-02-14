@@ -5,10 +5,11 @@ pool:
   name: default
   vmImage: 'ubuntu-latest'
 
-steps:
 - task: Npm@1
-  inputs:
-    command: install
+    displayName: 'npm install'
+    inputs:
+      workingDir: '$(System.DefaultWorkingDirectory)/src/Web/work996'
+      command: 'install'
 
 - script: |
     npm install
